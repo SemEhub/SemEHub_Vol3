@@ -1,0 +1,40 @@
+#A Python Program to compute the built-in potential in a p-n junction
+#ID: SH-2025-V03-02
+#Contributor: Rupam Goswami
+#Affiliation: TSDL, Department of Electronics and Communication Engineering, Tezpur University
+#This work is licensed under Creative Commons Attribution-ShareAlike 4.0 International
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Constants
+k_B = 8.617e-5   #Boltzmann constant (eV/K)
+T = 300          #Temperature (K)
+q = 1.6e-19      #Electronic charge (C)
+ni = 1.5e10      #Intrinsic conc. of silicon (cm^-3)
+
+#Doping concentrations as variables
+Na_range = np.logspace(16, 19, 10) # Example range from 1e16 to 1e19 with 10 points
+Nd_range = np.logspace(16, 19, 10) # Example range from 1e16 to 1e19 with 10 points
+Na_mesh, Nd_mesh = np.meshgrid(Na_range, Nd_range)
+
+#Calculate V_bi for each point in the meshgrid
+V_bi_mesh = (k_B * T) * np.log(Na_mesh * Nd_mesh / ni**2)
+
+#Create 3D plot
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection='3d')
+
+surf = ax.plot_surface(np.log10(Na_mesh), np.log10(Nd_mesh), V_bi_mesh, cmap='viridis')
+
+# Add labels and title
+ax.set_xlabel('Log10(Na) (cm^-3)')
+ax.set_ylabel('Log10(Nd) (cm^-3)')
+ax.set_zlabel('Built-in Potential (V)')
+ax.set_title('Built-in Potential vs. Na and Nd')
+
+# Add a color bar
+fig.colorbar(surf, label='Built-in Potential (V)')
+
+# Display the generated 3D plot.
+plt.show()
