@@ -1,0 +1,40 @@
+#A Python Program to Compute Depletion Width in a p-n Junction
+#ID: SH-2025-V03-03
+#Contributors: Deepjyoti Deb, Rupam Goswami
+#Affiliation: TSDL, Department of Electronics and Communication Engineering, Tezpur University
+#This work is licensed under Creative Commons Attribution-ShareAlike 4.0 International 
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Constants
+q = 1.6e-19           #Electronic charge (C)
+Vbi = 0.7             #Built-in potential (V)
+eps_0 = 8.85e-14      #Vacuum permittivity (F/cm)
+eps_si = 11.7*eps_0   #Silicon permittivity (F/cm)
+
+#Doping concentrations as variables
+Na_range = np.logspace(16, 19, 10) # Example range from 1e16 to 1e19 with 10 points
+Nd_range = np.logspace(16, 19, 10) # Example range from 1e16 to 1e19 with 10 points
+Na_mesh, Nd_mesh = np.meshgrid(Na_range, Nd_range)
+
+#Expression to compute depletion width
+W_dep_mesh = np.sqrt(((2* eps_si* Vbi)* ((1/Na_mesh) + (1/Nd_mesh))) / q)
+
+#Create 3D plot
+fig = plt.figure(figsize=(10, 8))
+ax = fig.add_subplot(111, projection='3d')
+
+surf = ax.plot_surface(np.log10(Na_mesh), np.log10(Nd_mesh), W_dep_mesh, cmap='viridis')
+
+# Add labels and title
+ax.set_xlabel('Log10(Na) (cm^-3)')
+ax.set_ylabel('Log10(Nd) (cm^-3)')
+ax.set_zlabel('Depletion Width (cm)')
+ax.set_title('Depletion Width vs. Na and Nd')
+
+# Add a color bar
+fig.colorbar(surf, label='Depletion Width (cm)')
+
+# Display the generated 3D plot.
+plt.show()
