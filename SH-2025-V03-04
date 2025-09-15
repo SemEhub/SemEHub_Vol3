@@ -1,0 +1,51 @@
+#A Python Program to Compute Depletion Layer Capacitance in a p-n Junction
+#ID: SH-2025-V03-04
+#Contributors: Deepjyoti Deb, Rupam Goswami
+#Affiliation: TSDL, Department of Electronics and Communication Engineering, Tezpur University
+#This work is licensed under Creative Commons Attribution-ShareAlike 4.0 International 
+
+import numpy as np
+import matplotlib.pyplot as plt
+
+#Constants
+q = 1.6e-19          #Electronic charge (C)
+Vbi = 0.7            #Built-in potential (V)
+eps_0 = 8.85e-14     #Vacuum permittivity (F/cm)
+eps_si = 11.7*eps_0  #Silicon permittivity (F/cm)
+Na = 1e18            #Doping concentration (cm^-3)
+Nd = 1e18            #Doping concentration (cm^-3)
+A = 1                #Area (cm^2)
+
+#Variables
+Vr_values = np.linspace(0,10,100)               #Range of reverse bias applied voltage (V)
+
+
+#Depletion layer width
+Wdep = np.sqrt(((2* eps_si* (Vbi+Vr_values))* ((1/Na) + (1/Nd))) / q)
+Cap_per_area = eps_si/Wdep;
+
+# 2D plot of Capacitance per Area vs. Reverse Bias Voltage
+plt.figure(figsize=(10, 6))
+plt.plot(Vr_values, Cap_per_area)
+
+# Labels and title
+plt.xlabel('Reverse Bias Voltage (V)')
+plt.ylabel('Capacitance per Area (F/cm^2)')
+plt.title('Capacitance per Area vs. Reverse Bias Voltage')
+plt.grid(True)
+
+# Display the plot
+plt.show()
+
+# 2D plot of 1/((Capacitance per Area)^2) vs. Reverse Bias Voltage
+plt.figure(figsize=(10, 6))
+plt.plot(Vr_values, 1/(Cap_per_area**2))
+
+# Labels and title
+plt.xlabel('Reverse Bias Voltage (V)')
+plt.ylabel('Capacitance per Area (cm^2/F)')
+plt.title('1/((Capacitance/Area)^2) vs. Reverse Bias Voltage')
+plt.grid(True)
+
+# Display the plot
+plt.show()
